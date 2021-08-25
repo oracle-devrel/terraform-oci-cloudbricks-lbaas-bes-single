@@ -38,7 +38,7 @@ data "oci_core_subnets" "SUBNET" {
   vcn_id         = local.vcn_id
   filter {
     name   = "display_name"
-    values = [var.lbaas_bes_single_network_subnet_name]
+    values = [var.network_subnet_name]
   }
 }
 
