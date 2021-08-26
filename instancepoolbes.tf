@@ -3,10 +3,7 @@
 # instancepoolbes.tf
 #
 # Purpose: The following script contains the logic to create an instance pool backend set of an already provisioned application LBaaS service
-# Registry: 
-#
-#
-#
+# Registry: https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/load_balancer_backend_set
 
 
 resource "oci_load_balancer_backend_set" "InstancePoolBackendSet" {
