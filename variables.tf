@@ -89,6 +89,10 @@ variable "balanced_artifact" {
   default     = ""
 }
 
+variable "backend_port" {
+  description = "The port used to interact with the backend instances"
+}
+
 variable "listener_name" {
   description = "Name of the listener attached to the backend LBaaS and points to backends"
   default     = ""
@@ -101,7 +105,7 @@ variable "session_persistance_cookie_name" {
 
 variable "listen_port" {
   description = "Port where listener will receive communication"
-  default     = ""
+  default     = "0"
 }
 
 variable "listen_protocol" {

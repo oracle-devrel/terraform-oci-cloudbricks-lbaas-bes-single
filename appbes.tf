@@ -51,7 +51,7 @@ resource "oci_load_balancer_load_balancer_routing_policy" "ApplicationRoutingPol
 
 
 resource "oci_load_balancer_hostname" "ApplicationBalanced_Artifact" {
-  count            = var.is_app_bes ? length(var.balanced_artifact) : 0
+  count            = var.listen_protocol != "TCP" && var.is_app_bes ? length(var.balanced_artifact) : 0
   hostname         = var.balanced_artifact[count.index].display_name
   load_balancer_id = var.load_balancer_id
   name             = var.balanced_artifact[count.index].display_name
@@ -95,6 +95,7 @@ resource "oci_load_balancer_listener" "ApplicationLBaaSListener" {
     content {
       certificate_name        = oci_load_balancer_certificate.ApplicationLoadBalancerCertificate[0].certificate_name
       verify_peer_certificate = var.verify_peer_certificate
+      cipher_suite_name       = var.listen_protocol == "HTTP2" ? "oci-default-http2-ssl-cipher-suite-v1" : ""
     }
   }
 }
@@ -108,7 +109,7 @@ resource "oci_load_balancer_backend" "ApplicationBackend" {
   backendset_name  = oci_load_balancer_backend_set.ApplicationBackendSet[0].name
 
   ip_address = var.balanced_artifact[count.index].private_ip
-  port       = var.checkport
+  port       = var.backend_port
   backup     = false
   drain      = false
   offline    = false

@@ -25,7 +25,7 @@ resource "oci_network_load_balancer_backend_set" "NetworkBackendSet" {
 
 
 resource "oci_network_load_balancer_listener" "NetworkLBaaSListener" {
-  depends_on = [oci_network_load_balancer_backend_set.NetworkBackendSet]
+  depends_on = [oci_network_load_balancer_backend_set.NetworkBackendSet, oci_network_load_balancer_backend.NetworkBackend]
 
   count                    = var.is_network_bes ? 1 : 0
   network_load_balancer_id = var.load_balancer_id
@@ -41,10 +41,10 @@ resource "oci_network_load_balancer_backend" "NetworkBackend" {
 
   count                    = var.is_network_bes ? length(var.balanced_artifact) : 0
   network_load_balancer_id = var.load_balancer_id
-  backend_set_name          = oci_network_load_balancer_backend_set.NetworkBackendSet[0].name
+  backend_set_name         = oci_network_load_balancer_backend_set.NetworkBackendSet[0].name
 
   ip_address = var.balanced_artifact[count.index].private_ip
-  port       = var.checkport
+  port       = var.backend_port
   is_backup  = false
   is_drain   = false
   is_offline = false
