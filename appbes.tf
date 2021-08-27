@@ -30,7 +30,7 @@ resource "oci_load_balancer_backend_set" "ApplicationBackendSet" {
 resource "oci_load_balancer_load_balancer_routing_policy" "ApplicationRoutingPolicy" {
   depends_on = [oci_load_balancer_backend_set.ApplicationBackendSet]
 
-  count                      = var.is_app_bes ? 1 : 0
+  count                      = var.is_app_bes && var.routing_policy_name != "" ? 1 : 0
   condition_language_version = var.routing_policy_condition_language_version
   load_balancer_id           = var.load_balancer_id
   name                       = var.routing_policy_name
@@ -87,7 +87,7 @@ resource "oci_load_balancer_listener" "ApplicationLBaaSListener" {
   protocol         = var.listen_protocol
 
   default_backend_set_name = oci_load_balancer_backend_set.ApplicationBackendSet[0].name
-  routing_policy_name      = oci_load_balancer_load_balancer_routing_policy.ApplicationRoutingPolicy[0].name
+  routing_policy_name      = oci_load_balancer_load_balancer_routing_policy.ApplicationRoutingPolicy.*.name == [] ? null : oci_load_balancer_load_balancer_routing_policy.ApplicationRoutingPolicy[0].name
   hostname_names           = oci_load_balancer_hostname.ApplicationBalanced_Artifact.*.name
 
   dynamic "ssl_configuration" {
