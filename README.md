@@ -245,21 +245,26 @@ session_persistance_cookie_name            = "MY_COOKIE_NAME"
 ```
 
 ### Variable Specific Conisderions
-
 - Variable `balanced_artifact` is used to supply the names and private IP addresses of instances. It is only used with Application and Instance Pool backend sets. You will pass a list of created instances into this variable on the frontend and they will be inserted into the backend set.
+- Variable `checkport` is the backend server port to use for health checks.
+- Variable `backend_port` is the port to communicate with the backend instances.
+- Variable `listen_port` is the port used by the listener to direct traffic to the backends.
 
 #### Application Load Balancer Specific:
-
+- Variable `listen_protocol` has options `HTTP`, `HTTP2` and `TCP`. If you want to use SSL, then make sure `listen_port` is set to `443` and all the SSL variables are correctly defined.
 - Variable `routing_policy_conditions` contains the routing rules to evaluate defined conditions against the incoming HTTP request and perform an action. For more information on how to write routing rules visit: [Routing Policy Language](https://docs.oracle.com/en-us/iaas/Content/Balance/Concepts/routing_policy_conditions.htm)
-- Variable `session_persistance_cookie_name`
-- Variable `lbaas_policy` can be set to `ROUND_ROBIN`, `LEAST_CONNECTIONS` or `IP_HASH`.
-- Variable `listen_protocol` has options `HTTP`, `HTTP2` and `TCP`. If you want to use SSL then supply `HTTP` to use HTTPS or you can use `HTTP2` which also uses SSL.
 
-#### Application Load Balancer Specific:
+#### Application and Instance Pool Load Balancer Specific:
+- Variable `lbaas_policy` can be set to `ROUND_ROBIN`, `LEAST_CONNECTIONS` or `IP_HASH`.
+- Variable `session_persistance_cookie_name` is the name of the cookie inserted by the load balancer. If this field is not configured, the cookie name defaults to `X-Oracle-BMC-LBS-Route`.
+
+#### Network Load Balancer Specific:
+
 - Variable `lbaas_policy` can be set to `FIVE_TUPLE`, `THREE_TUPLE` or `TWO_TUPLE`
 - Variable `listen_protocol` has options `ANY`, `UDP` or `TCP`. For public network load balancers, `ANY` protocol refers to `TCP/UDP`. For private network load balancers, `ANY` protocol refers to `TCP/UDP/ICMP` (note that `ICMP` requires `backend_set_is_preserve_source` to be set to `true`). 
-  - *Note*: When setting `listen_protocol` to `ANY`, `listen_port` and `backend_port` can both be set to the wildcard `0` to allow all protocols. `checkport` must still be set to some value to perform health checks on the backend set.
+  - *Note*: When setting `listen_protocol` to `ANY`, `listen_port` and `backend_port` can both be set to the wildcard `0` to allow all protocols. `checkport` must still be set to some value to perform health checks on the backend set. Example: `22`
 
+---
 
 ### Sample provider
 The following is the base provider definition to be used with this module
