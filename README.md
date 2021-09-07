@@ -8,7 +8,7 @@ The following brick contains the logic to provision a single decoupled Applicati
 ## Reference Architecture
 The following is the reference architecture associated to this brick
 
-<!-- ![Reference Architecture](./images/?) -->
+![Reference Architecture](./images/Bricks_Architectures-LBaaS-bes-single.jpg)
 
 ### Prerequisites
 - Pre-baked Artifact and Network Compartments
