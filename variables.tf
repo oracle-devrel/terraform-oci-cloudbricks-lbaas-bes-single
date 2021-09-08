@@ -29,7 +29,7 @@ variable "private_key_path" {
 }
 /********** Provider Variables NOT OVERLOADABLE **********/
 
-
+/********** Brick Variables **********/
 
 /********** LBaaS Single Backend Set Variables **********/
 variable "lbaas_bes_single_instance_compartment_name" {
@@ -181,8 +181,6 @@ variable "verify_peer_certificate" {
 
 /********** LBaaS Single Backend Set Variables **********/
 
-
-
 /********** Datasource and Subnet Lookup related variables **********/
 
 variable "network_subnet_name" {
@@ -194,3 +192,5 @@ variable "vcn_display_name" {
 }
 
 /********** Datasource related variables **********/
+
+/********** Brick Variables **********/
